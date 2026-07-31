@@ -9,3 +9,13 @@ function hideFunction(){
 
 
 }
+function showFunction(){
+    const show=document.getElementsByClassName("show");
+    if(show.style.display=="none"){
+        show.style.display="block";
+    }
+    else{
+        show.style.display="none";
+    }
+
+}

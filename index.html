@@ -18,11 +18,12 @@
     <!-- <i class="bi bi-openai"></i> -->
      <img src="assert/image/chat_logo.png">
   </div>
-  
+  <div class="search-hover">
   <div id="search">
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
       <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
     </svg>
+    </div>
   </div>
   
   <div id="close-sidebar">
@@ -57,9 +58,10 @@
 
 </div><br>
  <div id="dropdown">
-    <b><a href="#">Recents</a></b>
+<div class="Recent-hover"><b><a href="#">Recents</a></b>
     
-    <span id="hide" onclick="hideFunction()">&gt</span><br><br>
+    <span id="hide" onclick="hideFunction()">&gt</span><br><br></div>
+
     <ul class="dropdown" id="dropdownRecents">
         <li><a href="#">String concatenation in Js</a></li><br>
         <li><a href="#">Everyday eco-friendly habits</a></li><br>
@@ -103,11 +105,32 @@
 </div> 
 </div>
 <div id="split-right">
-    <div id="search-bar">
+  <div class="name">
+    <div class="name-hover">
+      
+    <a href="#" >ChatGPT</a>
+   <span class="show" onclick="showFunction()"><a href="#">&gt</a></span>
+   </div>
+<ul id="show">
+  
+<li><a href="#"><i class="bi bi-stars"></i>ChatGPT Plus</a></li>
+<li class="smart"><a href="#">Our smartest model & more</a></li>
+<li>ChatGPT <div class="great">Great for everyday tasks</div></li>
+
+</ul>
+  </div>
+  <div class="Intro">
+    <p>Where should we begin?</p>
+  </div>
+    <div class="search-bar">
         
         <input type="text" placeholder="Ask Anything">
-        <button type="option"><i class="bi bi-plus"></i></button>
-       
+        <button type="option">
+          <div  class="plus">
+          <i class="bi bi-plus"></i>
+          </div>
+        </button>
+      
     </div>
 </div>
 <script src="JS/script.js"></script>

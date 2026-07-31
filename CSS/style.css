@@ -1,11 +1,19 @@
  body{
        background-color: black;  
+       font-family:-apple-system-body, ui-sans-serif, -apple-system, "system-ui", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, "sans-serif", "Segoe UI Emoji", "Segoe UI Symbol";
      }
+.search-hover:hover{
+  background-color: #ffffff1a;
+  border-radius:8px;
+}
+#close-sidebar:hover{
+  background-color: #ffffff1a;
+  border-radius:8px;
+  
+}
 .Images-hover:hover,.Library-hover:hover,.Plugins-hover:hover,.Projects-hover:hover,.Codex-hover:hover,.New-Chat-hover:hover{
  background-color: #ffffff1a;
  border-radius:8px;
-  
-
 }
 
 .top-menu{
@@ -60,6 +68,10 @@ img{
     margin:10px;
    line-height: 2;
  }
+.Recent-hover{
+  background-color: black;
+  border-radius: 8px;
+}
  
 
   #split-left{
@@ -98,7 +110,7 @@ img{
  }
   ::-webkit-scrollbar-button {
   display: block;
-  background-color: #ffffff1a; /* Button background color */
+  background-color: #ffffff1a;
   background-repeat: no-repeat;
   background-position: center;
   height: 5px; 
@@ -115,25 +127,80 @@ img{
    width:120%;
    height:100%;
 } 
- #search-bar  {
+.Intro{
+  color: white;
+  font-size:24px;
+   display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+ .search-bar .Intro {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh; 
+  
+  
+  
  }
- #search-bar input{
+ .search-bar{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ }
+ .search-bar input{
    border-radius:30px;
    width: 800px;
    height:55px;
    font-size:18px;
    border:none;
+   outline: none;
    background-color:#ffffff1a ;
-
+   color: white;
+ }
+ 
+ .search-bar button{
+  background: #ffffff1a;
+  border:none;
+  border-radius:50px;
+  position: absolute;
+    top:50%;
+    right: 20px;
+    
  }
  .plus{
-  position: absolute;
-  left: 15px; 
-  color: #ffffff1a;
-  font-size: 16px;
+   
+  color: white;
+  size: 10px;
   pointer-events: none; 
  }
+.name{
+  color:white;
+  font-family: "OpenAI Sans", "OpenAI Sans Variable Scripts", sans-serif;
+  font-size:18px;
+  
+  position:relative;
+  left:300px;
+}
+.name-hover:hover{
+ background-color: #ffffff1a;
+ border-radius:8px;
+}
+.show a{
+  color:rgb(175,175,175);
+  display: inline-block;
+  transform: rotate(90deg);
+  size:8px;
+
+}
+#show{
+  list-style-type: none;
+}
+.smart,.great{
+  color:rgb(205,205,205);
+  font-size:12px;
+}
+.smart a{
+  color:rgb(205,205,205);
+}
