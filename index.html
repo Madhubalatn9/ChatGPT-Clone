@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT</title>
+    <link rel="icon" type="image/x-icon" href="chat_favicon.png">
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=folder" />
+    
+</head>
+<body>
+
+<div id="split-left">
+  <div class="top-menu">
+  <div id="chat-logo"> 
+    <!-- <i class="bi bi-openai"></i> -->
+     <img src="assert/image/chat_logo.png">
+  </div>
+  
+  <div id="search">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+    </svg>
+  </div>
+  
+  <div id="close-sidebar">
+    <span><i class="bi bi-layout-sidebar"></i></span>
+  </div>
+  </div>
+<div id="menu">
+    <div class="New-Chat-hover">
+    <i class="bi bi-pencil-square"></i>
+    <span id="New-Chat-text"> <a href="#" >New Chat</a></span>
+    </div>
+    <div class="Images-hover">
+    <i class="bi bi-images"></i>
+    <span id="Images-text"><a href="#">Images</a></span>
+    </div>
+    <div class="Library-hover">
+    <i class="bi bi-collection"></i>
+    <span id="Library-text"><a href="#">Library</a></span>
+    </div>
+    <div class="Plugins-hover">
+    <i class="bi bi-plugin"></i>
+    <span id="Plugins-text">  <a href="#" >Plugins</a></span>
+    </div>
+    <div class="Projects-hover">
+    <i class="bi bi-folder"></i>
+    <span id="Projects-text"> <a href="#">Projects</a> </span>
+    </div>
+    <div class="Codex-hover">
+    <i class="bi bi-code"></i>
+    <span id="Codex-text"> <a href="#" >Codex</a></span>
+</div>
+
+</div><br>
+ <div id="dropdown">
+    <b><a href="#">Recents</a></b>
+    
+    <span id="hide" onclick="hideFunction()">&gt</span><br><br>
+    <ul class="dropdown" id="dropdownRecents">
+        <li><a href="#">String concatenation in Js</a></li><br>
+        <li><a href="#">Everyday eco-friendly habits</a></li><br>
+        <li><a href="#">Time management frameworks</a></li><br>
+        <li><a href="#">Why good communication matters</a></li><br>
+        <li><a href="#">The parts of a cell</a></li><br>
+        <li><a href="#">The power of music</a></li><br>
+        <li><a href="#">Why exercise helps your brain</a></li><br>
+        <li><a href="#">What gratitude does to your mind</a></li><br>
+        <li><a href="#">Why nature helps mental health</a></li><br>
+        <li><a href="#">How plants make food (photosynthesis)</a></li><br>
+        <li><a href="#">The American Revolution basics</a></li><br>
+        <li><a href="#">Women who changed history</a></li><br>
+        <li><a href="#">What causes climate change </a></li><br>
+        <li><a href="#">What is a food chain</a></li><br>
+        <li><a href="#">How recycling helps</a></li><br>
+        <li><a href="#">Renewable energy types</a></li><br>
+        <li><a href="#">Why passwords matter</a></li><br>
+        <li><a href="#">How AI can help learning</a></li><br>
+        <li><a href="#">How scholarships work</a></li><br>
+        <li><a href="#">How to speak with confidence</a></li><br>
+        <li><a href="#">Nuclear power pros and cons</a></li><br>
+        <li><a href="#">How DNA works</a></li><br>
+        <li><a href="#">How taxes work </a></li><br>
+        <li><a href="#">Why people buy luxury goods</a></li><br>
+        <li><a href="#">The rise of creator economy</a></li><br>
+        <li><a href="#">How recommendation systems work</a></li><br>
+        <li><a href="#">The history of vaccines</a></li><br>
+        <li><a href="#">The best emojis ranked</a></li><br>
+        <li><a href="#">The science of being late</a></li><br>
+        <li><a href="#">Ranking every school subject</a></li><br>
+        <li><a href="#">Why social media needs age limits</a></li><br>
+        <li><a href="#">Why online privacy matters</a></li><br>
+        <li><a href="#">Why clean energy matters</a></li><br>
+        <li><a href="#">Why teamwork skills matter</a></li><br>
+        <li><a href="#">How to build disciplines</a></li><br>
+        <li><a href="#">Certificate download issue</a></li><br>
+        <li><a href="#">What is anchor tag</a></li><br>
+
+    </ul>
+</div> 
+</div>
+<div id="split-right">
+    <div id="search-bar">
+        
+        <input type="text" placeholder="Ask Anything">
+        <button type="option"><i class="bi bi-plus"></i></button>
+       
+    </div>
+</div>
+<script src="JS/script.js"></script>
+</body>
+</html>
