@@ -7,6 +7,7 @@
     <link rel="icon" type="image/x-icon" href="assert/image/chat_favicon.png">
     <link rel="stylesheet" href="CSS/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 </head>
 <body>
     <div class="split-left">
@@ -89,8 +90,36 @@
         <div class="library-title">
             <p>Library</p>
         </div>
-        <div class=""
+        <div class="library-search-bar">
+            <button class="search-btn"><i class="bi bi-search"></i></button>
+            <input type="text" placeholder="Search">
+        </div>
     </div>
+    <div class="new-dropdown">
+        <a href="#">New</a>
+        <span class="gt" onclick="newShowFunction()"><a href="#">&gt;</a></span>
+         </div>
+        <ul class="new-dropdown-list">
+            <li class="list1"><a href="#"><i class="bi bi-upload"></i><span>Upload</span></a></li>
+            <li class="list1"><a href="#"></a><i class="bi bi-folder"></i><span>Folder</span></a></li>
+            <li class="list1"><a href="#"></a><i class="bi bi-card-text"></i><span>Note</span></Note></a></li>
+
+        </ul>
+        <div class="library-icon">
+           <span><div class="filter-icon"> <i class="bi bi-filter"></i></div></span>
+           <span><div class="grid-icon"> <i class="bi bi-grid"></i></div></span>
+           <span><div class="task-icon"> <i class="bi bi-list-task"></i></div></span>
+        </div>
+        <div class="library-table">
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Modified</th>
+                    <th>Size</th>
+                </tr>
+            </table>
+        </div>
+   
 
 </div>
 </body>

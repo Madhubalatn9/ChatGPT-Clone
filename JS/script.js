@@ -19,3 +19,7 @@ function showFunction(){
     }
 
 }
+function newShowFunction(){
+    const newShow=document.getElementsByClassName("gt");
+    
+}
