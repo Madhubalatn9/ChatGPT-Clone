@@ -10,7 +10,7 @@ function hideFunction(){
 
 }
 function showFunction(){
-    const show=document.getElementsByClassName("show");
+    const show=document.getElementById("show");
     if(show.style.display=="none"){
         show.style.display="block";
     }
