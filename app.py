@@ -4,7 +4,8 @@ from groq import Groq
 
 app=Flask(__name__)
 
-client=Groq(api_key=os.environ.get("GROQ_API_KEY"))
+api_key = os.environ.get("GROQ_API_KEY")
+client = Groq(api_key=api_key) if api_key else None
 
 @app.route('/')
 def index():
