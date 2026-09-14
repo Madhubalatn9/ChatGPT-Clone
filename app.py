@@ -1,8 +1,8 @@
 import os
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from groq import Groq
 
-app=Flask(__name__)
+app = Flask(__name__)
 
 api_key = os.environ.get("GROQ_API_KEY")
 client = Groq(api_key=api_key) if api_key else None
@@ -13,8 +13,29 @@ def index():
 
 @app.route('/get_response', methods=['POST'])
 def get_response():
-    input_area=request.form.get('input-area')
-    return render_template('index.html')
+    data = request.get_json(silent=True) or {}
+    user_input = data.get('question') or request.form.get('input-area')
+    
+    if not user_input or not user_input.strip():
+        return jsonify({'error': 'Please enter a message.'}), 400
+        
+    if not client:
+        return jsonify({'error': 'GROQ_API_KEY environment variable is not set.'}), 500
+        
+    try:
+        chat_completion = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "user",
+                    "content": user_input.strip(),
+                }
+            ],
+            model="openai/gpt-oss-20b",
+        )
+        response_text = chat_completion.choices[0].message.content
+        return jsonify({'response': response_text})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/images')
 def image():
