@@ -105,28 +105,27 @@
 </ul>
   </div>
   <div class="search-wrapper">
-    <div class="home-page" class="page">
-  <div class="Intro">
-    <p>Where should we begin?</p>
-    </div>
-  </div>
-
-  <div class="search-bar">
-    <form action="{{ url_for('get_response') }}" method="POST">
-
-    <button class="icon-plus">  
-        <i class="bi bi-plus"></i>  
-    </button>
-    <div class="input-area">
-    <input type="text" placeholder="Ask anything" />
-    <button class="icon-mic">
-        <i class="bi bi-mic"></i>
-    </button>
-     <button class="submit-btn"><i class="bi bi-arrow-up-short"></i></button>
-</div>
-</form>
-
+    <div class="home-page page">
+      <div class="Intro" id="intro-heading">
+        <p>Where should we begin?</p>
       </div>
+      <div id="chat-messages" class="chat-messages"></div>
+    </div>
+
+    <div class="search-bar">
+      <form id="chat-form" action="{{ url_for('get_response') }}" method="POST" onsubmit="return false;">
+        <button type="button" class="icon-plus">  
+            <i class="bi bi-plus"></i>  
+        </button>
+        <div class="input-area">
+          <input type="text" id="user-input" name="input-area" placeholder="Ask anything" autocomplete="off" />
+          <button type="button" class="icon-mic">
+              <i class="bi bi-mic"></i>
+          </button>
+          <button type="submit" id="send-btn" class="submit-btn"><i class="bi bi-arrow-up-short"></i></button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
 <div class="next-task">

@@ -35,50 +35,109 @@ function newShowFunction() {
     }
 }
 
-const search_bar=document.getElementsByClassName("search-bar");
-const input_area=document.getElementsByClassName("input-area");
-const submit_btn=document.getElementsByClassName("submit-btn");
+document.addEventListener("DOMContentLoaded", function () {
+    const chatForm = document.getElementById("chat-form");
+    const userInput = document.getElementById("user-input");
+    const chatMessages = document.getElementById("chat-messages");
+    const introHeading = document.getElementById("intro-heading");
 
-submit_btn.addEventListener('click',function(){
-   const user_input=input_area.value;
+    if (!chatForm || !userInput || !chatMessages) return;
 
-   if (user_input.trim()){
-         const user_input_div=document.createElement('div');
-         user_input_div.className='user-message';
-         user_input_div.textContent=user_input;
-         search_bar.appendChild(user_input_div);
+    function scrollToBottom() {
+        const homePage = document.querySelector(".home-page");
+        if (homePage) {
+            homePage.scrollTop = homePage.scrollHeight;
+        }
+    }
 
-         search_bar.scrollTop=search_bar.scrollHeight;
+    async function handleSendMessage() {
+        const text = userInput.value.trim();
+        if (!text) return;
 
-         fetch('/get_response',{
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json',
+        // Hide intro text after first message
+        if (introHeading) {
+            introHeading.style.display = "none";
+        }
 
-            },
-            body:JSON.stringify({ question: user_input }),
-         })
-         .then(response => response.json())
-         .then(data => {
-            const bot_Message_Div=document.createElement('div');
-            bot_Message_Div.className='bot-message';
-            bot_Message_Div.textContent=data.response;
-            search_bar.appendChild(bot_Message_Div);
+        // Add user message to UI
+        const userRow = document.createElement("div");
+        userRow.className = "message-row user-message-row";
+        userRow.innerHTML = `
+            <div class="message-bubble user-bubble">
+                ${escapeHtml(text)}
+            </div>
+        `;
+        chatMessages.appendChild(userRow);
+        userInput.value = "";
+        scrollToBottom();
 
-            search_bar.scrollTop=search_bar.scrollHeight;
-         })
-         .catch(error => {
-            const error_Message_div=document.createElement('div');
-            error_Message_div.className='bot-error-message';
-            error_Message_div.textConent="Error: Unable to fetch response";
-            search_bar.appendChild(error_Message_div);
-         });
-    input_area.value='';
+        // Add loading bot message
+        const botRow = document.createElement("div");
+        botRow.className = "message-row bot-message-row";
+        const botBubbleId = "bot-bubble-" + Date.now();
+        botRow.innerHTML = `
+            <div class="bot-avatar">
+                <i class="bi bi-stars"></i>
+            </div>
+            <div class="message-bubble bot-bubble" id="${botBubbleId}">
+                <span class="thinking-dots">Thinking...</span>
+            </div>
+        `;
+        chatMessages.appendChild(botRow);
+        scrollToBottom();
 
-   }
-});
-input_area.addEventListener('keyup', function(event) {
-            if (event.key === 'Enter') {
-                sendBtn.click();
+        try {
+            const response = await fetch("/get_response", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ question: text })
+            });
+
+            const data = await response.json();
+            const botBubble = document.getElementById(botBubbleId);
+
+            if (response.ok && data.response) {
+                botBubble.innerHTML = formatMarkdown(data.response);
+            } else {
+                botBubble.innerHTML = `<span class="error-text">Error: ${escapeHtml(data.error || "Failed to get response.")}</span>`;
             }
-        });
+        } catch (err) {
+            const botBubble = document.getElementById(botBubbleId);
+            if (botBubble) {
+                botBubble.innerHTML = `<span class="error-text">Error: Unable to connect to server.</span>`;
+            }
+        }
+        scrollToBottom();
+    }
+
+    chatForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        handleSendMessage();
+    });
+
+    userInput.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            handleSendMessage();
+        }
+    });
+
+    function escapeHtml(str) {
+        return str
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    function formatMarkdown(text) {
+        // Simple formatter for newline & backticks
+        let formatted = escapeHtml(text);
+        formatted = formatted.replace(/\n/g, "<br>");
+        formatted = formatted.replace(/`([^`]+)`/g, "<code>$1</code>");
+        return formatted;
+    }
+});
