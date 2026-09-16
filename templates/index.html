@@ -55,32 +55,33 @@
   <div class="ai-output">
     
   </div>
+  <div id="chat-container"></div>
 </div>
 
+<div class="next-task">
+  <div class="create-image">
+    <i class="bi bi-card-image"></i>
+    <span><a class="create_hover" href="#">Create an image</a></span>
+    <span class="create_close"><a href="#"><i class="bi bi-x"></i></a></span>
+  </div>
+
+  <div class="write">
+    <i class="bi bi-pencil"></i>
+    <span><a href="#">Write or edit</a></span>
+    <span class="create_close"><a href="#"><i class="bi bi-x"></i></a></span>
+  </div>
+  <div class="search-web">
+    <i class="bi bi-globe-central-south-asia-fill"></i>
+    <span><a href="#">Search the web</a></span>
+    <span class="create_close"><a href="#"><i class="bi bi-x"></i></a></span>
+  </div>
+  <div class="upgrade-blue">
+    <a href="#"><i class="bi bi-stars"></i><b>Upgrade</b></a>
+  </div>
+</div>
 
   </div>
 </div>
-<div class="next-task">
-<div class="create-image">
-  <i class="bi bi-card-image"></i>
-  <span><a class="create_hover" href="#">Create an image</a></span>
-  <span class="create_close"><a href="#"><i class="bi bi-x"></i></a></span>
-</div>
-
-<div class="write">
-  <i class="bi bi-pencil"></i>
-  <span><a href="#">Write or edit</a></span>
-  <span class="create_close"><a href="#"><i class="bi bi-x"></i></a></span>
-</div>
-<div class="search-web">
-  <i class="bi bi-globe-central-south-asia-fill"></i>
-  <span><a href="#">Search the web</a></span>
-  <span class="create_close"><a href="#"><i class="bi bi-x"></i></a></span>
-</div>
-<div class="upgrade-blue">
-  <a href="#"><i class="bi bi-stars"></i><b>Upgrade</b></a>
-</div>
-</div>
-<script src="{{ url_for('static', filename='JS/script.js') }}"></script>
+<script src="{{ url_for('static', filename='JS/script.js') }}?v=1.1"></script>
 
 {% endblock %}

@@ -99,25 +99,32 @@ document.addEventListener("DOMContentLoaded", function () {
             const botBubble = document.getElementById(botBubbleId);
 
             if (response.ok && data.response) {
-                const markDowntext = formatMarkdown(data.response);
+                botBubble.innerHTML = "";
+                const rawText = data.response;
                 var i = 0;
-                var speed = 5;
+                var speed = 10;
+
                 function typeWriter() {
-                    if (i < markDowntext.length) {
-                        botBubble.innerHTML += markDowntext.charAt(i);
+                    if (i < rawText.length) {
+                        botBubble.textContent += rawText.charAt(i);
                         i++;
                         setTimeout(typeWriter, speed);
+                    } else {
+                        botBubble.innerHTML = formatMarkdown(rawText);
                     }
                 }
-                typeWriter()
-                // botBubble.innerHTML = markDowntext
+                typeWriter();
             } else {
                 botBubble.innerHTML = `<span class="error-text">Error: ${escapeHtml(data.error || "Failed to get response.")}</span>`;
             }
         } catch (err) {
+            console.error("Fetch/Processing Error:", err);
             const botBubble = document.getElementById(botBubbleId);
             if (botBubble) {
-                botBubble.innerHTML = `<span class="error-text">Error: Unable to connect to server.</span>`;
+                const errorMsg = err instanceof TypeError && err.message.includes("fetch") 
+                    ? "Unable to connect to server." 
+                    : (err.message || "An unexpected error occurred.");
+                botBubble.innerHTML = `<span class="error-text">Error: ${escapeHtml(errorMsg)}</span>`;
             }
         }
         scrollToBottom();
@@ -144,11 +151,128 @@ document.addEventListener("DOMContentLoaded", function () {
             .replace(/'/g, "&#039;");
     }
 
+    // function formatMarkdown(text) {
+    //     // Simple formatter for newline & backticks
+    //     let formatted = escapeHtml(text);
+    //     formatted = formatted.replace(/\n/g, "<br>");
+    //     formatted = formatted.replace(/`([^`]+)`/g, "<code>$1</code>");
+    //     return formatted;
+    // }
     function formatMarkdown(text) {
-        // Simple formatter for newline & backticks
-        let formatted = escapeHtml(text);
-        formatted = formatted.replace(/\n/g, "<br>");
-        formatted = formatted.replace(/`([^`]+)`/g, "<code>$1</code>");
-        return formatted;
-    }
+    if (!text) return "";
+
+    // Convert Markdown to HTML
+    let html = marked.parse(text);
+
+    // Sanitize generated HTML
+    html = DOMPurify.sanitize(html);
+
+    // Create temporary container
+    const container = document.createElement("div");
+    container.innerHTML = html;
+
+    // Find all code blocks
+    container.querySelectorAll("pre code").forEach((codeBlock) => {
+
+        // Detect language
+        const className = codeBlock.className || "";
+        const match = className.match(/language-(\w+)/);
+
+        const language = match ? match[1] : "";
+
+        // Apply syntax highlighting
+        if (language && hljs.getLanguage(language)) {
+            codeBlock.innerHTML = hljs.highlight(
+                codeBlock.textContent,
+                {
+                    language: language
+                }
+            ).value;
+        } else {
+            // Auto detect language if no language is specified
+            codeBlock.innerHTML = hljs.highlightAuto(
+                codeBlock.textContent
+            ).value;
+        }
+
+        // Create copy button
+        const copyButton = document.createElement("button");
+
+        copyButton.className = "copy-code-btn";
+        copyButton.textContent = "Copy";
+
+        copyButton.addEventListener("click", async () => {
+
+            const code = codeBlock.textContent;
+
+            try {
+                await navigator.clipboard.writeText(code);
+
+                copyButton.textContent = "Copied!";
+
+                setTimeout(() => {
+                    copyButton.textContent = "Copy";
+                }, 1500);
+
+            } catch (error) {
+                console.error("Copy failed:", error);
+            }
+        });
+
+        // Put code and button inside wrapper
+        const wrapper = document.createElement("div");
+
+        wrapper.className = "code-block-wrapper";
+
+        const header = document.createElement("div");
+
+        header.className = "code-block-header";
+
+        if (language) {
+            const languageLabel = document.createElement("span");
+
+            languageLabel.textContent = language;
+
+            header.appendChild(languageLabel);
+        }
+
+        header.appendChild(copyButton);
+
+        wrapper.appendChild(header);
+
+        const pre = codeBlock.parentElement;
+
+        pre.parentElement.replaceChild(wrapper, pre);
+
+        wrapper.appendChild(pre);
+    });
+
+    return container.innerHTML;
+}
 });
+
+const response = `
+# Hello!
+
+Here is some Java code:
+
+\`\`\`java
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello World");
+    }
+}
+\`\`\`
+
+This is **bold text**.
+
+This is \`inline code\`.
+`;
+
+const formatted = formatMarkdown(response);
+
+document.getElementById("chat-container").innerHTML += `
+    <div class="message assistant-message">
+        ${formatted}
+    </div>
+`;

@@ -6,9 +6,16 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
+client = None
 
-api_key = os.environ.get("GROQ_API_KEY")
-client = Groq(api_key=api_key) if api_key else None
+def get_client():
+    global client
+    if not client:
+        load_dotenv(override=True)
+        api_key = os.environ.get("GROQ_API_KEY")
+        if api_key:
+            client = Groq(api_key=api_key)
+    return client
 
 @app.route('/')
 def index():
@@ -22,11 +29,12 @@ def get_response():
     if not user_input or not user_input.strip():
         return jsonify({'error': 'Please enter a message.'}), 400
         
-    if not client:
+    groq_client = get_client()
+    if not groq_client:
         return jsonify({'error': 'GROQ_API_KEY environment variable is not set.'}), 500
         
     try:
-        chat_completion = client.chat.completions.create(
+        chat_completion = groq_client.chat.completions.create(
             messages=[
                 {
                     "role": "user",
