@@ -99,7 +99,18 @@ document.addEventListener("DOMContentLoaded", function () {
             const botBubble = document.getElementById(botBubbleId);
 
             if (response.ok && data.response) {
-                botBubble.innerHTML = formatMarkdown(data.response);
+                const markDowntext = formatMarkdown(data.response);
+                var i = 0;
+                var speed = 5;
+                function typeWriter() {
+                    if (i < markDowntext.length) {
+                        botBubble.innerHTML += markDowntext.charAt(i);
+                        i++;
+                        setTimeout(typeWriter, speed);
+                    }
+                }
+                typeWriter()
+                // botBubble.innerHTML = markDowntext
             } else {
                 botBubble.innerHTML = `<span class="error-text">Error: ${escapeHtml(data.error || "Failed to get response.")}</span>`;
             }
