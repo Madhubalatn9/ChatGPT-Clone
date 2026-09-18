@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const botBubbleId = "bot-bubble-" + Date.now();
         botRow.innerHTML = `
             <div class="bot-avatar">
-                <i class="bi bi-stars"></i>
+                
             </div>
             <div class="message-bubble bot-bubble" id="${botBubbleId}">
                 <span class="thinking-dots">Thinking...</span>
@@ -250,29 +250,3 @@ document.addEventListener("DOMContentLoaded", function () {
     return container.innerHTML;
 }
 });
-
-const response = `
-# Hello!
-
-Here is some Java code:
-
-\`\`\`java
-public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello World");
-    }
-}
-\`\`\`
-
-This is **bold text**.
-
-This is \`inline code\`.
-`;
-
-const formatted = formatMarkdown(response);
-
-document.getElementById("chat-container").innerHTML += `
-    <div class="message assistant-message">
-        ${formatted}
-    </div>
-`;

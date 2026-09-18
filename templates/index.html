@@ -2,86 +2,54 @@
 
 {% extends 'base.html' %}
 {% block content %}
-<div class="split-right">
-  <div class="name">
-    <div class="name-hover">
-      
-    <a href="#">ChatGPT</a>
-   <span class="show" onclick="showFunction()"><a href="#">&gt;</a></span>
-   </div>
-<ul id="show">
-  
-<li><a href="#"><i class="bi bi-stars"></i>ChatGPT Plus</a></li>
-<li class="smart"><a href="#">Our smartest model & more</a></li>
-<li>ChatGPT <div class="great">Great for everyday tasks</div></li>
 
-</ul>
+<div class="name">
+  <div class="name-hover">     
+    <a href="#">AI-Bot</a>
   </div>
-  <div class="search-wrapper">
-    <div class="home-page page">
-      <div class="Intro" id="intro-heading">
-        <p>Where should we begin?</p>
-      </div>
-      <div id="chat-messages" class="chat-messages"></div>
+</div>
+
+<div class="search-wrapper">
+  <div class="home-page page">
+    <div class="Intro" id="intro-heading">
+      <p>Where should we begin?</p>
     </div>
+    <div id="chat-messages" class="chat-messages"></div>
+  </div>
 
-    <!-- <div class="search-bar">
-      <form id="chat-form" action="{{ url_for('get_response') }}" method="POST" onsubmit="return false;">
-        <button type="button" class="icon-plus">  
-            <i class="bi bi-plus"></i>  
-        </button>
-        <div class="input-area">
-          <input type="text" id="user-input" name="input-area" placeholder="Ask anything" autocomplete="off" />
-          <button type="button" class="icon-mic">
-              <i class="bi bi-mic"></i>
-          </button>
-          <button type="submit" id="send-btn" class="submit-btn"><i class="bi bi-arrow-up-short"></i></button>
-        </div>
-      </form>
-    </div> -->
+  <div class="search-main">
     <div class="search-bar">
-  <form id="chat-form" action="{{ url_for('get_response') }}" method="POST">
-    <button type="button" class="icon-plus" aria-label="Add attachment">  
-      <i class="bi bi-plus"></i>  
-    </button>
-    <input type="text" id="user-input" name="input-area" placeholder="Ask anything" autocomplete="off" />
-    <button type="button" class="icon-mic" aria-label="Voice input">
-      <i class="bi bi-mic"></i>
-    </button>
-    <button type="submit" id="send-btn" class="submit-btn" aria-label="Send message">
-      <i class="bi bi-arrow-up-short"></i>
-    </button>
-  </form>
-  <div class="ai-output">
-    
+      <form id="chat-form" action="{{ url_for('get_response') }}" method="POST">
+        <div class="plus-upload">
+        <label for="file-upload" class="custom-file-upload">
+        <!-- <button type="button" class="icon-plus" aria-label="Add attachment">   -->
+              <div class="icon-plus" aria-label="Add attachment">  
+
+              <i class="bi bi-plus"></i> 
+              </div> 
+        <!-- </button> -->
+        </label>
+                <input type="file" id="file-upload" class="file-upload"/>
+                </div>
+
+        <input type="text" id="user-input" name="input-area" placeholder="Ask anything" autocomplete="off" />
+        <button type="button" class="icon-mic" aria-label="Voice input">
+          <i class="bi bi-mic"></i>
+        </button>
+        <button type="submit" id="send-btn" class="submit-btn" aria-label="Send message">
+          <i class="bi bi-arrow-up-short"></i>
+        </button>
+      </form>
+    </div>
   </div>
-  <div id="chat-container"></div>
+  <div class="message user-message">
+  <span class="message-bubble">
+    <!-- <i class="bi bi-chat-right"></i> -->
+  </span>
+  <!-- <div class="msg-text">Hello there!</div> -->
+</div>
 </div>
 
-<div class="next-task">
-  <div class="create-image">
-    <i class="bi bi-card-image"></i>
-    <span><a class="create_hover" href="#">Create an image</a></span>
-    <span class="create_close"><a href="#"><i class="bi bi-x"></i></a></span>
-  </div>
-
-  <div class="write">
-    <i class="bi bi-pencil"></i>
-    <span><a href="#">Write or edit</a></span>
-    <span class="create_close"><a href="#"><i class="bi bi-x"></i></a></span>
-  </div>
-  <div class="search-web">
-    <i class="bi bi-globe-central-south-asia-fill"></i>
-    <span><a href="#">Search the web</a></span>
-    <span class="create_close"><a href="#"><i class="bi bi-x"></i></a></span>
-  </div>
-  <div class="upgrade-blue">
-    <a href="#"><i class="bi bi-stars"></i><b>Upgrade</b></a>
-  </div>
-</div>
-
-  </div>
-</div>
-<script src="{{ url_for('static', filename='JS/script.js') }}?v=1.1"></script>
+<script src="{{ url_for('static', filename='JS/script.js') }}?v=1.2"></script>
 
 {% endblock %}
