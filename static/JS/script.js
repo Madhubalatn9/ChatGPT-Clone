@@ -41,6 +41,114 @@ document.addEventListener("DOMContentLoaded", function () {
     const chatMessages = document.getElementById("chat-messages");
     const introHeading = document.getElementById("intro-heading");
 
+    // Plus button dropdown menu functionality
+    const plusBtn = document.getElementById("plus-btn");
+    const dropdownMenu = document.getElementById("dropdown-menu");
+    const imageUpload = document.getElementById("image-upload");
+    const fileUpload = document.getElementById("file-upload");
+    const addImageOption = document.getElementById("add-image-option");
+    const addFileOption = document.getElementById("add-file-option");
+
+    // Attachment Preview Elements
+    const attachmentPreview = document.getElementById("attachment-preview");
+    const previewImg = document.getElementById("preview-img");
+    const fileIconBadge = document.getElementById("file-icon-badge");
+    const previewFilename = document.getElementById("preview-filename");
+    const removeAttachmentBtn = document.getElementById("remove-attachment-btn");
+
+    let currentAttachment = null;
+
+    if (plusBtn && dropdownMenu) {
+        plusBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            dropdownMenu.classList.toggle("show");
+            plusBtn.classList.toggle("active");
+        });
+
+        document.addEventListener("click", function (e) {
+            if (!dropdownMenu.contains(e.target) && !plusBtn.contains(e.target)) {
+                dropdownMenu.classList.remove("show");
+                plusBtn.classList.remove("active");
+            }
+        });
+
+        if (addImageOption && imageUpload) {
+            addImageOption.addEventListener("click", function () {
+                dropdownMenu.classList.remove("show");
+                plusBtn.classList.remove("active");
+                imageUpload.click();
+            });
+        }
+
+        if (addFileOption && fileUpload) {
+            addFileOption.addEventListener("click", function () {
+                dropdownMenu.classList.remove("show");
+                plusBtn.classList.remove("active");
+                fileUpload.click();
+            });
+        }
+    }
+
+    // Attachment selection handling
+    function handleFileSelected(file) {
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            currentAttachment = {
+                name: file.name,
+                type: file.type,
+                base64: e.target.result
+            };
+
+            if (attachmentPreview) {
+                attachmentPreview.style.display = "flex";
+                if (file.type.startsWith("image/")) {
+                    if (previewImg) {
+                        previewImg.src = e.target.result;
+                        previewImg.style.display = "block";
+                    }
+                    if (fileIconBadge) fileIconBadge.style.display = "none";
+                    if (previewFilename) previewFilename.textContent = "";
+                } else {
+                    if (previewImg) previewImg.style.display = "none";
+                    if (fileIconBadge) fileIconBadge.style.display = "flex";
+                    if (previewFilename) previewFilename.textContent = file.name;
+                }
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+
+    if (imageUpload) {
+        imageUpload.addEventListener("change", function (e) {
+            if (e.target.files && e.target.files[0]) {
+                handleFileSelected(e.target.files[0]);
+            }
+        });
+    }
+
+    if (fileUpload) {
+        fileUpload.addEventListener("change", function (e) {
+            if (e.target.files && e.target.files[0]) {
+                handleFileSelected(e.target.files[0]);
+            }
+        });
+    }
+
+    function clearAttachment() {
+        currentAttachment = null;
+        if (attachmentPreview) attachmentPreview.style.display = "none";
+        if (previewImg) previewImg.src = "";
+        if (previewFilename) previewFilename.textContent = "";
+        if (imageUpload) imageUpload.value = "";
+        if (fileUpload) fileUpload.value = "";
+    }
+
+    if (removeAttachmentBtn) {
+        removeAttachmentBtn.addEventListener("click", clearAttachment);
+    }
+
     if (!chatForm || !userInput || !chatMessages) return;
 
     function scrollToBottom() {
@@ -52,7 +160,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     async function handleSendMessage() {
         const text = userInput.value.trim();
-        if (!text) return;
+        if (!text && !currentAttachment) return;
+
+        const attachmentToSend = currentAttachment;
 
         // Hide intro text after first message
         if (introHeading) {
@@ -62,23 +172,35 @@ document.addEventListener("DOMContentLoaded", function () {
         // Add user message to UI
         const userRow = document.createElement("div");
         userRow.className = "message-row user-message-row";
+
+        let bubbleContent = "";
+        if (attachmentToSend) {
+            if (attachmentToSend.type.startsWith("image/")) {
+                bubbleContent += `<img src="${attachmentToSend.base64}" alt="Uploaded image" class="user-attachment-img" />`;
+            } else {
+                bubbleContent += `<div class="user-attachment-file"><i class="bi bi-file-earmark-text"></i> ${escapeHtml(attachmentToSend.name)}</div>`;
+            }
+        }
+        if (text) {
+            bubbleContent += `<div>${escapeHtml(text)}</div>`;
+        }
+
         userRow.innerHTML = `
             <div class="message-bubble user-bubble">
-                ${escapeHtml(text)}
+                ${bubbleContent}
             </div>
         `;
         chatMessages.appendChild(userRow);
         userInput.value = "";
+        clearAttachment();
         scrollToBottom();
 
-        // Add loading bot message
+        
         const botRow = document.createElement("div");
         botRow.className = "message-row bot-message-row";
         const botBubbleId = "bot-bubble-" + Date.now();
         botRow.innerHTML = `
-            <div class="bot-avatar">
-                
-            </div>
+            <div class="bot-avatar"></div>
             <div class="message-bubble bot-bubble" id="${botBubbleId}">
                 <span class="thinking-dots">Thinking...</span>
             </div>
@@ -92,7 +214,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ question: text })
+                body: JSON.stringify({
+                    question: text,
+                    attachment: attachmentToSend
+                })
             });
 
             const data = await response.json();

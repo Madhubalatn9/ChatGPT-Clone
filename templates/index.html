@@ -20,17 +20,32 @@
   <div class="search-main">
     <div class="search-bar">
       <form id="chat-form" action="{{ url_for('get_response') }}" method="POST">
-        <div class="plus-upload">
-        <label for="file-upload" class="custom-file-upload">
-        <!-- <button type="button" class="icon-plus" aria-label="Add attachment">   -->
-              <div class="icon-plus" aria-label="Add attachment">  
+        <div class="dropdown-symbol" id="dropdown-symbol">
+          <button type="button" class="icon-plus" id="plus-btn" aria-label="Add attachment">  
+            <i class="bi bi-plus"></i> 
+          </button>
+          <ul class="dropdown-list" id="dropdown-menu">
+            <li class="dropdown-list-item" id="add-image-option">
+              <i class="bi bi-image"></i>
+              <span>Add Images</span>
+            </li>
+            <li class="dropdown-list-item" id="add-file-option">
+              <i class="bi bi-paperclip"></i>
+              <span>Add Files</span>
+            </li>
+          </ul>
+          <input type="file" id="image-upload" class="file-upload" accept="image/*" style="display: none;"/>
+          <input type="file" id="file-upload" class="file-upload" style="display: none;"/>
+        </div>
 
-              <i class="bi bi-plus"></i> 
-              </div> 
-        <!-- </button> -->
-        </label>
-                <input type="file" id="file-upload" class="file-upload"/>
-                </div>
+        <div id="attachment-preview" class="attachment-preview" style="display: none;">
+          <img id="preview-img" src="" alt="Preview" class="preview-img" style="display: none;" />
+          <div id="file-icon-badge" class="file-icon-badge" style="display: none;">
+            <i class="bi bi-file-earmark-text"></i>
+          </div>
+          <span id="preview-filename" class="preview-filename"></span>
+          <button type="button" id="remove-attachment-btn" class="remove-attachment-btn" aria-label="Remove attachment">&times;</button>
+        </div>
 
         <input type="text" id="user-input" name="input-area" placeholder="Ask anything" autocomplete="off" />
         <button type="button" class="icon-mic" aria-label="Voice input">
