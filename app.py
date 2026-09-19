@@ -38,7 +38,7 @@ def get_response():
         is_image = attachment and isinstance(attachment, dict) and attachment.get('type', '').startswith('image/')
         
         if is_image:
-            user_content:list[dict[str,any]] = [
+            user_content= [
                 {
                     "type": "image_url",
                     "image_url": {
@@ -52,14 +52,14 @@ def get_response():
                 user_content.append({"type": "text", "text": "Describe this image."})
                 
             model_to_use = "meta-llama/llama-4-scout-17b-16e-instruct"
-            messages_payload :list[dict[str,any]]= [{"role": "user", "content": user_content}]
+            messages_payload = [{"role": "user", "content": user_content}]
         else:
             prompt_text = user_input.strip()
             if attachment and isinstance(attachment, dict) and attachment.get('name'):
                 prompt_text = f"[Attached file: {attachment.get('name')}]\n\n{prompt_text}".strip()
                 
             model_to_use = "openai/gpt-oss-120b"
-            messages_payload:list[dict[str,any]] = [{"role": "user", "content": prompt_text}]
+            messages_payload= [{"role": "user", "content": prompt_text}]
 
         chat_completion = groq_client.chat.completions.create(
             messages=messages_payload, #type: ignore

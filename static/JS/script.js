@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const chatMessages = document.getElementById("chat-messages");
     const introHeading = document.getElementById("intro-heading");
 
-    // Plus button dropdown menu functionality
+   
     const plusBtn = document.getElementById("plus-btn");
     const dropdownMenu = document.getElementById("dropdown-menu");
     const imageUpload = document.getElementById("image-upload");
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const addImageOption = document.getElementById("add-image-option");
     const addFileOption = document.getElementById("add-file-option");
 
-    // Attachment Preview Elements
+    
     const attachmentPreview = document.getElementById("attachment-preview");
     const previewImg = document.getElementById("preview-img");
     const fileIconBadge = document.getElementById("file-icon-badge");
@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Attachment selection handling
+  
     function handleFileSelected(file) {
         if (!file) return;
 
@@ -164,12 +164,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const attachmentToSend = currentAttachment;
 
-        // Hide intro text after first message
+       
         if (introHeading) {
             introHeading.style.display = "none";
         }
 
-        // Add user message to UI
+        
         const userRow = document.createElement("div");
         userRow.className = "message-row user-message-row";
 
@@ -286,26 +286,24 @@ document.addEventListener("DOMContentLoaded", function () {
     function formatMarkdown(text) {
     if (!text) return "";
 
-    // Convert Markdown to HTML
+   
     let html = marked.parse(text);
 
-    // Sanitize generated HTML
+    
     html = DOMPurify.sanitize(html);
 
-    // Create temporary container
+   
     const container = document.createElement("div");
     container.innerHTML = html;
 
-    // Find all code blocks
+   
     container.querySelectorAll("pre code").forEach((codeBlock) => {
 
-        // Detect language
         const className = codeBlock.className || "";
         const match = className.match(/language-(\w+)/);
 
         const language = match ? match[1] : "";
 
-        // Apply syntax highlighting
         if (language && hljs.getLanguage(language)) {
             codeBlock.innerHTML = hljs.highlight(
                 codeBlock.textContent,
@@ -314,13 +312,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             ).value;
         } else {
-            // Auto detect language if no language is specified
+            
             codeBlock.innerHTML = hljs.highlightAuto(
                 codeBlock.textContent
             ).value;
         }
 
-        // Create copy button
+       
         const copyButton = document.createElement("button");
 
         copyButton.className = "copy-code-btn";
@@ -344,7 +342,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-        // Put code and button inside wrapper
+        
         const wrapper = document.createElement("div");
 
         wrapper.className = "code-block-wrapper";
